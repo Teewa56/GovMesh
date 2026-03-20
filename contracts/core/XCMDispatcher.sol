@@ -63,7 +63,7 @@ pragma solidity ^0.8.28;
 import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
-import "@openzeppelin/contracts-upgradeable/utils/ReentrancyGuardUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol";
 
 import "../interfaces/IXCMDispatcher.sol";
 import "../interfaces/IXcmPrecompile.sol";
@@ -109,10 +109,6 @@ contract XCMDispatcher is
         _;
     }
 
-    constructor() {
-        _disableInitializers();
-    }
-
     function initialize(
         address admin,
         address votingAddress,
@@ -131,6 +127,11 @@ contract XCMDispatcher is
 
         _grantRole(VOTER_ROLE, votingAddress);
         _grantRole(REGISTRY_ROLE, registryAddress);
+    }
+
+    function setXcmPrecompile(address precompileAddress) external onlyRole(DEFAULT_ADMIN_ROLE) {
+        require(precompileAddress != address(0), "Invalid precompile address");
+        xcmPrecompile = IXcmPrecompile(precompileAddress);
     }
 
     function dispatchVote(

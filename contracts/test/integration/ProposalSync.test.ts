@@ -55,13 +55,13 @@ async function syncFixture() {
   const RESPONDER_ROLE = ethers.keccak256(ethers.toUtf8Bytes("RESPONDER_ROLE"));
   await system.dispatcher.connect(system.admin).grantRole(
     RESPONDER_ROLE,
-    await system.mockXcm.getAddress()
+    system.mockXcm.address
   );
 
   const DISPATCHER_ROLE = ethers.keccak256(ethers.toUtf8Bytes("DISPATCHER_ROLE"));
   await system.registry.connect(system.admin).grantRole(
     DISPATCHER_ROLE,
-    await system.dispatcher.getAddress()
+    system.dispatcher.address
   );
 
   return system;

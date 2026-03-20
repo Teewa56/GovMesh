@@ -61,8 +61,8 @@ pragma solidity ^0.8.28;
 import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
-import "@openzeppelin/contracts-upgradeable/utils/ReentrancyGuardUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/utils/PausableUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 
 import "../interfaces/IGovMeshVoting.sol";
 import "../interfaces/IGovMeshRegistry.sol";
@@ -109,10 +109,6 @@ contract GovMeshVoting is
         _;
     }
 
-    constructor() {
-        _disableInitializers();
-    }
-
     function initialize(
         address admin,
         address registryAddress,
@@ -131,6 +127,11 @@ contract GovMeshVoting is
         nativeAssets = INativeAssets(XCM_NATIVE_ASSETS_PRECOMPILE);
 
         _grantRole(CONFIRMER_ROLE, dispatcherAddress);
+    }
+
+    function setNativeAssets(address nativeAssetsAddress) external onlyRole(DEFAULT_ADMIN_ROLE) {
+        require(nativeAssetsAddress != address(0), "Invalid native assets address");
+        nativeAssets = INativeAssets(nativeAssetsAddress);
     }
 
     function vote(

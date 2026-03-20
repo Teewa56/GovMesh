@@ -117,6 +117,8 @@ export async function deployGovMeshSystem() {
 
   await registry.connect(admin).setDispatcher(await dispatcher.getAddress());
   await dispatcher.connect(admin).setVoting(await voting.getAddress());
+  await dispatcher.connect(admin).setXcmPrecompile(mockXcm.address);
+  await voting.connect(admin).setNativeAssets(mockAssets.address);
 
   const SYNCER_ROLE = ethers.keccak256(ethers.toUtf8Bytes("SYNCER_ROLE"));
   await registry.connect(admin).grantRole(SYNCER_ROLE, keeper.address);
