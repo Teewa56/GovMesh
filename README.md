@@ -486,11 +486,11 @@ govmesh/
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/govmesh.git
+git clone https://github.com/teewa56/govmesh.git
 cd govmesh
 
 # Install dependencies
-pnpm install
+npm install
 
 # Copy environment variables
 cp .env.example .env
