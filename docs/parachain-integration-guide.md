@@ -152,7 +152,7 @@ await registry.registerParachain(
 Or use the deployment script:
 
 ```bash
-pnpm hardhat run scripts/deploy/03_register_parachains.ts --network polkadot-hub-testnet
+npm hardhat run scripts/deploy/03_register_parachains.ts --network polkadot-hub-testnet
 ```
 
 To add a new parachain beyond the initial three, add an entry to `scripts/utils/parachain-config.ts` and re-run the registration script.
@@ -198,7 +198,7 @@ Inspect the transaction logs for `VoteDispatched` on the XCMDispatcher and `Vote
 Run the check-delivery task and watch for `VoteDelivered` events:
 
 ```bash
-pnpm hardhat run scripts/tasks/check-delivery.ts --network polkadot-hub-testnet
+npm hardhat run scripts/tasks/check-delivery.ts --network polkadot-hub-testnet
 ```
 
 **6. Verify on target chain:**

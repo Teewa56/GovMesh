@@ -6,7 +6,7 @@
  *
  * Networks:
  *   hardhat               — Local in-memory network for unit tests
- *   localhost             — Local hardhat node (pnpm hardhat node)
+ *   localhost             — Local hardhat node (npm hardhat node)
  *   polkadot-hub-testnet  — Polkadot Hub testnet (EVM-compatible)
  *   polkadot-hub-mainnet  — Polkadot Hub mainnet (production)
  *
@@ -25,7 +25,7 @@
  *   Outputs gas usage per function call in test runs.
  *
  * Coverage:
- *   Run: pnpm hardhat coverage
+ *   Run: npm hardhat coverage
  *   Output: coverage/ directory with HTML report.
  * ============================================================
  */

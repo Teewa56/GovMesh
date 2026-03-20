@@ -22,7 +22,7 @@
  *   Set BLOCKSCOUT_API_KEY and BLOCKSCOUT_URL in .env.
  *
  * Usage:
- *   pnpm hardhat run scripts/deploy/00_deploy_registry.ts --network polkadot-hub-testnet
+ *   npm hardhat run scripts/deploy/00_deploy_registry.ts --network polkadot-hub-testnet
  * ============================================================
  */
 

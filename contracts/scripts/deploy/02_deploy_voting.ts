@@ -21,7 +21,7 @@
  * to populate the Registry with initial parachain data.
  *
  * Usage:
- *   pnpm hardhat run scripts/deploy/02_deploy_voting.ts --network polkadot-hub-testnet
+ *   npm hardhat run scripts/deploy/02_deploy_voting.ts --network polkadot-hub-testnet
  * ============================================================
  */
 

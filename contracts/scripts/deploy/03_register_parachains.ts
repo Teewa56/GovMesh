@@ -24,7 +24,7 @@
  * re-register already registered parachains.
  *
  * Usage:
- *   pnpm hardhat run scripts/deploy/03_register_parachains.ts --network polkadot-hub-testnet
+ *   npm hardhat run scripts/deploy/03_register_parachains.ts --network polkadot-hub-testnet
  * ============================================================
  */
 

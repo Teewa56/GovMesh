@@ -370,7 +370,7 @@ The `Transact` payload is a SCALE-encoded call to the remote parachain's governa
 ### Prerequisites
 
 - Node.js >= 20
-- pnpm >= 9 (recommended) or npm
+- npm >= 9 (recommended) or npm
 - A Polkadot Hub testnet account with test DOT
 - MetaMask, SubWallet, or Talisman wallet configured for Polkadot Hub
 
@@ -427,39 +427,39 @@ NEXT_PUBLIC_VOTING_ADDRESS=deployed_voting_address
 ### Step 1: Compile Contracts
 
 ```bash
-pnpm hardhat compile
+npm run compile
 ```
 
 ### Step 2: Run Tests (Local)
 
 ```bash
-pnpm hardhat test
+npm run test
 ```
 
 ### Step 3: Deploy to Polkadot Hub Testnet
 
 ```bash
 # Deploy in order — Registry first, then Voting (needs Registry address), then Dispatcher
-pnpm hardhat run scripts/deploy/00_deploy_registry.ts --network polkadot-hub-testnet
-pnpm hardhat run scripts/deploy/01_deploy_voting.ts --network polkadot-hub-testnet
-pnpm hardhat run scripts/deploy/02_deploy_dispatcher.ts --network polkadot-hub-testnet
+npm hardhat run scripts/deploy/00_deploy_registry.ts --network polkadot-hub-testnet
+npm hardhat run scripts/deploy/01_deploy_voting.ts --network polkadot-hub-testnet
+npm hardhat run scripts/deploy/02_deploy_dispatcher.ts --network polkadot-hub-testnet
 
 # Register initial parachains (Moonbeam, Astar, Hydration)
-pnpm hardhat run scripts/deploy/03_register_parachains.ts --network polkadot-hub-testnet
+npm hardhat run scripts/deploy/03_register_parachains.ts --network polkadot-hub-testnet
 ```
 
 ### Step 4: Verify Contracts
 
 ```bash
-pnpm hardhat verify --network polkadot-hub-testnet DEPLOYED_CONTRACT_ADDRESS
+npm hardhat verify --network polkadot-hub-testnet DEPLOYED_CONTRACT_ADDRESS
 ```
 
 ### Step 5: Launch Frontend
 
 ```bash
 cd frontend
-pnpm install
-pnpm dev
+npm install
+npm run dev
 ```
 
 ### Hardhat Network Config (`hardhat.config.ts`)
@@ -517,9 +517,9 @@ GovMesh has a three-layer test suite:
 Each contract is tested in isolation with mock precompiles. Mock contracts replicate the XCM precompile and native assets precompile interfaces locally so Hardhat can simulate their behavior.
 
 ```bash
-pnpm hardhat test test/unit/Registry.test.ts
-pnpm hardhat test test/unit/Voting.test.ts
-pnpm hardhat test test/unit/XCMDispatcher.test.ts
+npm hardhat test test/unit/Registry.test.ts
+npm hardhat test test/unit/Voting.test.ts
+npm hardhat test test/unit/XCMDispatcher.test.ts
 ```
 
 ### Integration Tests
@@ -527,7 +527,7 @@ pnpm hardhat test test/unit/XCMDispatcher.test.ts
 Integration tests simulate the full vote flow — from `vote()` call through XCM dispatch — using mock precompile contracts deployed in the same Hardhat environment.
 
 ```bash
-pnpm hardhat test test/integration/VoteFlow.test.ts
+npm hardhat test test/integration/VoteFlow.test.ts
 ```
 
 ### End-to-End (Testnet)
@@ -536,10 +536,10 @@ Manual E2E testing is done on Polkadot Hub testnet against real parachains. A Pa
 
 ```bash
 # Run the keeper to trigger a proposal sync
-pnpm hardhat run scripts/tasks/sync-proposals.ts --network polkadot-hub-testnet
+npm hardhat run scripts/tasks/sync-proposals.ts --network polkadot-hub-testnet
 
 # Check XCM vote delivery status
-pnpm hardhat run scripts/tasks/check-delivery.ts --network polkadot-hub-testnet
+npm hardhat run scripts/tasks/check-delivery.ts --network polkadot-hub-testnet
 ```
 
 ---

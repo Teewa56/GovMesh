@@ -19,10 +19,10 @@
  * This is granted during 00_deploy_registry.ts.
  *
  * Usage:
- *   pnpm hardhat run scripts/tasks/sync-proposals.ts --network polkadot-hub-testnet
+ *   npm hardhat run scripts/tasks/sync-proposals.ts --network polkadot-hub-testnet
  *
  * Cron (every 10 min):
- *   */10 * * * * cd /path/to/govmesh && pnpm hardhat run scripts/tasks/sync-proposals.ts --network polkadot-hub-testnet
+ *   */10 * * * * cd /path/to/govmesh && npm hardhat run scripts/tasks/sync-proposals.ts --network polkadot-hub-testnet
  * ============================================================
  */
 

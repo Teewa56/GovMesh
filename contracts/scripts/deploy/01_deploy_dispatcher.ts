@@ -23,7 +23,7 @@
  *   before mainnet deployment.
  *
  * Usage:
- *   pnpm hardhat run scripts/deploy/01_deploy_dispatcher.ts --network polkadot-hub-testnet
+ *   npm hardhat run scripts/deploy/01_deploy_dispatcher.ts --network polkadot-hub-testnet
  * ============================================================
  */
 

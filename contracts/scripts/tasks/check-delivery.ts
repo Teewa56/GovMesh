@@ -20,7 +20,7 @@
  * can see the status update in the frontend.
  *
  * Usage:
- *   pnpm hardhat run scripts/tasks/check-delivery.ts --network polkadot-hub-testnet
+ *   npm hardhat run scripts/tasks/check-delivery.ts --network polkadot-hub-testnet
  * ============================================================
  */
 
