@@ -1,0 +1,42 @@
+{
+  "name": "govmesh",
+  "version": "1.0.0",
+  "description": "Cross-Parachain Governance Execution Layer on Polkadot Hub",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "test:unit": "hardhat test test/unit/**/*.test.ts",
+    "test:integration": "hardhat test test/integration/**/*.test.ts",
+    "test:coverage": "hardhat coverage",
+    "test:gas": "REPORT_GAS=true hardhat test",
+    "deploy:registry": "hardhat run scripts/deploy/00_deploy_registry.ts",
+    "deploy:dispatcher": "hardhat run scripts/deploy/01_deploy_dispatcher.ts",
+    "deploy:voting": "hardhat run scripts/deploy/02_deploy_voting.ts",
+    "deploy:parachains": "hardhat run scripts/deploy/03_register_parachains.ts",
+    "deploy:all:testnet": "npm run deploy:registry -- --network polkadot-hub-testnet && npm run deploy:dispatcher -- --network polkadot-hub-testnet && npm run deploy:voting -- --network polkadot-hub-testnet && npm run deploy:parachains -- --network polkadot-hub-testnet",
+    "task:sync": "hardhat run scripts/tasks/sync-proposals.ts",
+    "task:sync:testnet": "hardhat run scripts/tasks/sync-proposals.ts --network polkadot-hub-testnet",
+    "task:delivery": "hardhat run scripts/tasks/check-delivery.ts",
+    "task:delivery:testnet": "hardhat run scripts/tasks/check-delivery.ts --network polkadot-hub-testnet",
+    "node": "hardhat node",
+    "clean": "hardhat clean",
+    "lint": "solhint 'contracts/**/*.sol'",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@openzeppelin/hardhat-upgrades": "^3.0.0",
+    "@types/node": "^20.0.0",
+    "dotenv": "^16.0.0",
+    "hardhat": "^2.22.0",
+    "solhint": "^5.0.0",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.3.0"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts-upgradeable": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

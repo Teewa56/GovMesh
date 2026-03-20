@@ -1,0 +1,41 @@
+# ============================================================
+# squid.yaml
+# ============================================================
+# Subsquid Aquarium deployment configuration for GovMesh.
+# Used by the `sqd` CLI to deploy and manage the squid.
+#
+# To deploy:
+#   sqd auth --key YOUR_AQUARIUM_KEY
+#   sqd deploy .
+#
+# To run locally:
+#   sqd up      (starts Postgres + processor + GraphQL via Docker)
+#   sqd process (processor only)
+#   sqd serve   (GraphQL server only, requires running processor)
+# ============================================================
+
+name: govmesh-squid
+version: 1
+description: Cross-chain governance event indexer for GovMesh on Polkadot Hub
+
+build:
+
+deploy:
+  addons:
+    postgres:
+  processor:
+    cmd:
+      - node
+      - lib/processor.js
+  api:
+    cmd:
+      - npx
+      - squid-graphql-server
+      - --dumb-cache
+      - in-memory
+      - --dumb-cache-ttl
+      - "1000"
+      - --dumb-cache-size
+      - "100"
+      - --dumb-cache-max-age
+      - "1000"

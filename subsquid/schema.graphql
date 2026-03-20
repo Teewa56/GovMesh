@@ -1,0 +1,104 @@
+# ============================================================
+# schema.graphql
+# ============================================================
+# Subsquid GraphQL schema for GovMesh.
+#
+# Defines three entity types indexed from on-chain events:
+#
+#   Vote          — Created from VoteCommitted, updated on
+#                   VoteSent, VoteDelivered, VoteFailed.
+#                   Represents a complete vote lifecycle record.
+#
+#   Proposal      — Created/updated from ProposalSynced.
+#                   Mirrors the on-chain Registry proposal data
+#                   with a denormalized chain name for queries.
+#
+#   ParachainStat — Aggregated per-parachain vote stats.
+#                   Total votes, total voting weight, participation.
+#
+# Querying examples:
+#
+#   Get all votes for a voter:
+#     votes(where: { voter_eq: "0xABC..." }, orderBy: timestamp_DESC)
+#
+#   Get open proposals on Moonbeam:
+#     proposals(where: { parachainId_eq: 2004, open_eq: true })
+#
+#   Get delivered votes from the last 7 days:
+#     votes(where: { status_eq: Delivered, timestamp_gt: "..." })
+# ============================================================
+
+type Vote @entity {
+  id: ID!
+
+  voteId: String! @index
+  voter: String! @index
+  parachainId: Int! @index
+  parachainName: String!
+  proposalIndex: BigInt!
+
+  voteType: VoteType!
+  conviction: Int!
+  dotBalance: BigInt!
+  votingWeight: BigInt!
+
+  status: DeliveryStatus!
+  xcmMessageId: String
+
+  blockNumber: BigInt!
+  timestamp: DateTime! @index
+
+  proposal: Proposal
+}
+
+type Proposal @entity {
+  id: ID!
+
+  index: BigInt! @index
+  parachainId: Int! @index
+  parachainName: String!
+
+  title: String!
+  metadataIpfsHash: String!
+  endBlock: BigInt!
+
+  ayeVotes: BigInt!
+  nayVotes: BigInt!
+  abstainVotes: BigInt!
+
+  open: Boolean! @index
+  lastSyncedAt: DateTime!
+
+  votes: [Vote!] @derivedFrom(field: "proposal")
+}
+
+type ParachainStat @entity {
+  id: ID!
+
+  parachainId: Int! @index
+  parachainName: String!
+
+  totalVotes: Int!
+  totalAyeWeight: BigInt!
+  totalNayWeight: BigInt!
+  totalAbstainWeight: BigInt!
+
+  deliveredVotes: Int!
+  failedVotes: Int!
+  pendingVotes: Int!
+
+  lastUpdated: DateTime!
+}
+
+enum VoteType {
+  Aye
+  Nay
+  Abstain
+}
+
+enum DeliveryStatus {
+  Pending
+  Sent
+  Delivered
+  Failed
+}
