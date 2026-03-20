@@ -28,9 +28,8 @@
 14. [Deployment Guide](#deployment-guide)
 15. [Testing](#testing)
 16. [Frontend](#frontend)
-17. [Judging Criteria Alignment](#judging-criteria-alignment)
-18. [Roadmap](#roadmap)
-19. [Team](#team)
+17. [Roadmap](#roadmap)
+18. [Team](#team)
 
 ---
 
@@ -96,10 +95,10 @@ The core dispatch path — from a Solidity function call → XCM message encodin
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                         POLKADOT HUB (EVM/PVM)                     │
+│                         POLKADOT HUB (EVM/PVM)                      │
 │                                                                     │
-│   ┌─────────────────┐     ┌──────────────────┐                     │
-│   │  GovMeshRegistry│────▶│  GovMeshVoting   │                     │
+│   ┌─────────────────┐     ┌──────────────────┐                      │
+│   │  GovMeshRegistry│───▶ │  GovMeshVoting   │                      │
 │   │  (Solidity)     │     │  (Solidity)      │                     │
 │   │                 │     │                  │                     │
 │   │ - Parachain reg │     │ - Vote commit    │                     │
@@ -112,7 +111,7 @@ The core dispatch path — from a Solidity function call → XCM message encodin
 │   │           XCM Dispatcher (Solidity)      │                      │
 │   │   Encodes and dispatches XCM messages    │                      │
 │   │   via the XCM Precompile (0x0800)        │                      │
-│   └─────────────────┬───────────────────────┘                      │
+│   └─────────────────┬───────────────────────┘                       │
 │                     │                                               │
 │   ┌─────────────────┼───────────────────────┐                      │
 │   │  Native Assets  │  XCM Precompile        │                      │
@@ -675,19 +674,6 @@ The frontend is a Next.js 15 app with three primary views:
 
 ---
 
-## Judging Criteria Alignment
-
-| Criterion | GovMesh Response |
-|---|---|
-| **Technical Implementation** | Three purpose-built Solidity contracts on PVM; direct usage of XCM and Native Assets precompiles; XCM v5 message construction for vote dispatch |
-| **Innovation** | First Solidity-based cross-chain governance execution layer on Polkadot. No existing product does cross-parachain vote submission from a single contract |
-| **Polkadot Native Usage** | Uses XCM as a first-class feature (not bridging workaround); DOT native asset used directly; precompile integration is the core technical primitive |
-| **User Impact** | Directly solves the governance participation problem for every DOT holder — reduces from N wallet interactions to 1 |
-| **Track 2 Coverage** | Hits all three Track 2 sub-categories simultaneously |
-| **W3F Mission Alignment** | W3F's mandate includes decentralized governance and user empowerment — GovMesh is a direct infrastructure play in that direction, with potential for a follow-on W3F grant |
-
----
-
 ## Roadmap
 
 ### Hackathon Scope (MVP)
@@ -703,7 +689,6 @@ The frontend is a Next.js 15 app with three primary views:
 - [ ] Governance analytics dashboard (turnout, conviction distribution)
 - [ ] Support for parachain-specific governance modules (not just `pallet-democracy`)
 - [ ] DAO tooling: delegate voting, voting coalitions across parachains
-- [ ] W3F grant application for sustained development
 - [ ] Mobile app (via WalletConnect + RainbowKit mobile)
 
 ---
