@@ -22,7 +22,6 @@
 8. [Precompiles Used](#precompiles-used)
 9. [XCM Integration](#xcm-integration)
 10. [Tech Stack](#tech-stack)
-11. [Folder Structure](#folder-structure)
 12. [Getting Started](#getting-started)
 13. [Environment Setup](#environment-setup)
 14. [Deployment Guide](#deployment-guide)
@@ -363,113 +362,6 @@ The `Transact` payload is a SCALE-encoded call to the remote parachain's governa
 | **Data Layer** | On-chain storage + IPFS (via Pinata) for proposal metadata |
 | **Indexer** | Subsquid (for vote history and proposal event indexing) |
 | **Contract Verification** | Blockscout (Polkadot Hub explorer) |
-
----
-
-## Folder Structure
-
-```
-govmesh/
-│
-├── contracts/                          # All Solidity smart contracts
-│   ├── core/
-│   │   ├── GovMeshRegistry.sol         # Parachain + proposal registry
-│   │   ├── GovMeshVoting.sol           # Vote commitment + weight logic
-│   │   └── XCMDispatcher.sol          # XCM encoding + precompile dispatch
-│   ├── interfaces/
-│   │   ├── IGovMeshRegistry.sol
-│   │   ├── IGovMeshVoting.sol
-│   │   ├── IXCMDispatcher.sol
-│   │   ├── IXcmPrecompile.sol         # Polkadot Hub XCM precompile interface
-│   │   └── INativeAssets.sol          # Native assets precompile interface
-│   ├── libraries/
-│   │   ├── XCMEncoder.sol             # XCM instruction encoding helpers
-│   │   └── ConvictionMath.sol         # Conviction multiplier computation
-│   └── mocks/
-│       ├── MockXcmPrecompile.sol       # For local testing
-│       ├── MockNativeAssets.sol
-│       └── MockGovernancePallet.sol
-│
-├── scripts/
-│   ├── deploy/
-│   │   ├── 00_deploy_registry.ts
-│   │   ├── 01_deploy_voting.ts
-│   │   ├── 02_deploy_dispatcher.ts
-│   │   └── 03_register_parachains.ts
-│   ├── tasks/
-│   │   ├── sync-proposals.ts          # Keeper script: trigger proposal sync
-│   │   └── check-delivery.ts          # Monitor XCM vote delivery
-│   └── utils/
-│       ├── xcm-builder.ts             # XCM MultiLocation + message builder
-│       ├── scale-encoder.ts           # SCALE-encode remote call payloads
-│       └── parachain-config.ts        # Known parachain IDs + governance info
-│
-├── test/
-│   ├── unit/
-│   │   ├── Registry.test.ts
-│   │   ├── Voting.test.ts
-│   │   └── XCMDispatcher.test.ts
-│   ├── integration/
-│   │   ├── VoteFlow.test.ts           # Full vote → XCM dispatch flow
-│   │   └── ProposalSync.test.ts
-│   └── fixtures/
-│       ├── parachain-fixtures.ts
-│       └── proposal-fixtures.ts
-│
-├── frontend/
-│   ├── app/
-│   │   ├── layout.tsx
-│   │   ├── page.tsx                   # Proposal feed (home)
-│   │   ├── proposals/
-│   │   │   └── [parachainId]/
-│   │   │       └── [proposalIndex]/
-│   │   │           └── page.tsx       # Individual proposal view + vote UI
-│   │   ├── history/
-│   │   │   └── page.tsx              # User vote history
-│   │   └── parachains/
-│   │       └── page.tsx              # Registered parachains list
-│   ├── components/
-│   │   ├── ProposalCard.tsx
-│   │   ├── VoteModal.tsx
-│   │   ├── ConvictionSlider.tsx
-│   │   ├── XCMStatusBadge.tsx        # Live XCM delivery status indicator
-│   │   ├── ParachainBadge.tsx
-│   │   └── WalletConnect.tsx
-│   ├── hooks/
-│   │   ├── useGovMesh.ts             # Contract read/write hooks
-│   │   ├── useProposals.ts
-│   │   ├── useVoteHistory.ts
-│   │   └── useXCMStatus.ts
-│   ├── lib/
-│   │   ├── contracts.ts              # ABI + address config
-│   │   ├── wagmi.ts                  # wagmi + RainbowKit config
-│   │   └── polkadot-hub-chain.ts     # Custom chain definition for Polkadot Hub
-│   └── public/
-│       └── govmesh-logo.svg
-│
-├── subsquid/                           # On-chain event indexer
-│   ├── src/
-│   │   ├── processor.ts
-│   │   ├── handlers/
-│   │   │   ├── voteCommitted.ts
-│   │   │   ├── voteDelivered.ts
-│   │   │   └── proposalSynced.ts
-│   │   └── model/
-│   │       └── generated/
-│   └── schema.graphql
-│
-├── docs/
-│   ├── architecture.md
-│   ├── xcm-message-spec.md
-│   ├── precompile-reference.md
-│   └── parachain-integration-guide.md
-│
-├── hardhat.config.ts
-├── .env.example
-├── package.json
-├── tsconfig.json
-└── README.md
-```
 
 ---
 
