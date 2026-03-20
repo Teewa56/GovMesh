@@ -70,9 +70,51 @@ async function syncFixture() {
 describe("ProposalSync Integration", function () {
   describe("Happy Path — Full Sync Cycle", function () {
     it("should sync proposals from a remote parachain via mock XCM query", async function () {
-      const { registry, dispatcher, mockXcm, keeper, admin } = await loadFixture(syncFixture);
-      const chain = MOCK_PARACHAINS[0];
+      // Deploy fresh contracts to work around loadFixture issues with ethers v6
+      const [admin, keeper] = await ethers.getSigners();
 
+      const MockXcmPrecompile = await ethers.getContractFactory("MockXcmPrecompile");
+      const mockXcm = await MockXcmPrecompile.deploy();
+      await mockXcm.waitForDeployment();
+
+      const RegistryFactory = await ethers.getContractFactory("GovMeshRegistry");
+      const registry = await upgrades.deployProxy(
+        RegistryFactory,
+        [admin.address],
+        { kind: "uups", initializer: "initialize" }
+      );
+      await registry.waitForDeployment();
+
+      const DispatcherFactory = await ethers.getContractFactory("XCMDispatcher");
+      const dispatcher = await upgrades.deployProxy(
+        DispatcherFactory,
+        [admin.address, ethers.ZeroAddress, await registry.getAddress()],
+        { kind: "uups", initializer: "initialize" }
+      );
+      await dispatcher.waitForDeployment();
+
+      // Set up relationships
+      await registry.connect(admin).setDispatcher(await dispatcher.getAddress());
+      await dispatcher.connect(admin).setXcmPrecompile(mockXcm.address);
+
+      const SYNCER_ROLE = ethers.keccak256(ethers.toUtf8Bytes("SYNCER_ROLE"));
+      await registry.connect(admin).grantRole(SYNCER_ROLE, keeper.address);
+
+      const RESPONDER_ROLE = ethers.keccak256(ethers.toUtf8Bytes("RESPONDER_ROLE"));
+      await dispatcher.connect(admin).grantRole(RESPONDER_ROLE, mockXcm.address);
+
+      const DISPATCHER_ROLE_TEST = ethers.keccak256(ethers.toUtf8Bytes("DISPATCHER_ROLE"));
+      await registry.connect(admin).grantRole(DISPATCHER_ROLE_TEST, dispatcher.address);
+
+      // Register parachain
+      await registry.connect(admin).registerParachain(
+        2004,
+        "Moonbeam",
+        "0x01010000d4070000",
+        "0x2400"
+      );
+
+      const chain = MOCK_PARACHAINS[0];
       await registry.connect(keeper).syncProposals(chain.id);
 
       const queryEvents = await mockXcm.queryFilter(mockXcm.filters.XcmQuerySent());
